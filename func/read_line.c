@@ -1,5 +1,7 @@
+#include "func.h"
+
 // basic funciton
-int read_line_a(char str[], int n)
+int read_line(char str[], int n)
 {
     int ch, i = 0;
 
@@ -50,7 +52,7 @@ int read_line_c(char str[], int n)
 }
 
 // 把没有空间储存的值留下来备用，表示i==n时就得退出
-int read_line_c(char str[], int n)
+int read_line_d(char str[], int n)
 {
     int i = 0;
 
