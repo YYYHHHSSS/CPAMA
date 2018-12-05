@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <ctype.h>
 #include "func.h"
 
 // basic funciton
@@ -42,7 +44,7 @@ int read_line_b(char str[], int n)
 // 遇到第一个'\n'时停止读入
 int read_line_c(char str[], int n)
 {
-    int i = 0;
+    int ch, i = 0;
     do {
         ch = getchar();
         if (i < n) str[i++] = ch;
