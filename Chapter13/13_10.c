@@ -40,25 +40,27 @@ void read_name(char name[], int n) //读取姓名，并处理名、姓及名和�
     int i = 0;
     char ch;
 
-    while ((ch = getchar()) == ' ') //去除名之前的空格
+    while ((ch = getchar()) == ' ')
         ;
-    printf("step one\n");
+    name[i++] = ch;
 
-    name[i] = ch;
-    while (ch != '\n' && i < n) {
+    while ((ch != '\n') && i < n) {
         if ((ch = getchar()) == ' ') {
-            name[++i] = ch;
-            while ((ch = getchar()) == ' ') 
+            name[i++] = ch;
+            while ((ch = getchar()) == ' ')
                 ;
         }
-        name[++i] = ch;
+        if (i < n)
+            name[i++] = ch;
     }
-    printf("step two\n");
 
-    if (i > 0 && (name[i] == '\n')) i--; //去除姓之后的空格
+    if (name[i-2] == ' ')
+        i -= 2;
+    else if (name[i-1] == ' ')
+        i--;
+    
     name[i] = '\0';
-
-    printf("done");
+    printf("The name is %s: \n", name);
 }
 
 
