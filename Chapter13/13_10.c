@@ -60,7 +60,6 @@ void read_name(char name[], int n) //读取姓名，并处理名、姓及名和�
         i--;
     
     name[i] = '\0';
-    printf("The name is %s: \n", name);
 }
 
 
