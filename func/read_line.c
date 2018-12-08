@@ -2,15 +2,31 @@
 #include <ctype.h>
 #include "func.h"
 
-// basic funciton
-int read_line(char str[], int n)
+void read_line(char sentence[], int n) //去除句子前的空格，去除单词之间的空格，去除句子末的空格
 {
-    int ch, i = 0;
+    int i = 0;
+    char ch;
 
-    while ((ch = getchar()) != '\n')
-        if (i < n) str[i++] = ch;
-    str[i] = '\0';
-    return i;
+    while ((ch = getchar()) == ' ')
+        ;
+    sentence[i++] = ch;
+
+    while ((ch != '\n') && i < n) {
+        if ((ch = getchar()) == ' ') {
+            sentence[i++] = ch;
+            while ((ch = getchar()) == ' ')
+                ;
+        }
+        if (i < n)
+            sentence[i++] = ch;
+    }
+
+    if (sentence[i-2] == ' ')
+        i -= 2;
+    else if (sentence[i-1] == ' ' || sentence[i-1] == '\n')
+        i--;
+    
+    sentence[i] = '\0';
 }
 
 // 跳过输入字符前的空白字符
@@ -64,3 +80,4 @@ int read_line_d(char str[], int n)
 
     return i;
 }
+
