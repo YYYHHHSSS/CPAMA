@@ -12,20 +12,19 @@ int main(void)
 
     printf("Enter a sentence: ");
     read_line(sentence, N);
-    printf("Ths sentence is __%s__\n", sentence);
     f = compute_average_word_length(sentence);
 
-    printf("Average word length: %lf\n", f);
+    printf("Average word length: %.1lf\n", f);
 
     return 0;
 }
 
 double compute_average_word_length(const char *sentence)
 {
-    int n = 0, sum = 0;
+    int n = 1, sum = 0;
 
-    while (*sentence++) {
-        if (*sentence == ' ') {
+    for (int i = 0; sentence[i] != '\0'; i++) {
+        if (sentence[i] == ' ') {
             n++;
             continue;
         }
