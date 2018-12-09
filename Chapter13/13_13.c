@@ -17,7 +17,6 @@ int main(void)
     scanf("%d", &n);
 
     encrypt(message, n);
-
     printf("Encrypted message: %s\n", message);
 
     return 0;
@@ -31,6 +30,7 @@ void encrypt(char *message, int shift)
             ch = isupper(*message) ? 'A' : 'a';
             *message = ((*message - ch) + shift) % 26 + ch;
         }
+        message++;
     }
 }
 
