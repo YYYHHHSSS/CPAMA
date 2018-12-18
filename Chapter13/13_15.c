@@ -32,19 +32,19 @@ int evaluate_RPN_expression(const char *expression)
         else
             switch (*expression) {
                 case '+': value = pop();
-                          value += pop();
+                          value = pop() + value;
                           push(value);
                           break;
                 case '-': value = pop();
-                          value -= pop();
+                          value = pop() - value;
                           push(value);
                           break;
                 case '*': value = pop();
-                          value *= pop();
+                          value = pop() * value;
                           push(value);
                           break;
                 case '/': value = pop();
-                          value /= pop();
+                          value = pop() / value;
                           push(value);
                           break;
                 case '=': value = pop();
