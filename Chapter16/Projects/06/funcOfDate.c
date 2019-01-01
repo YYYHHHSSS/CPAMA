@@ -16,7 +16,6 @@ int day_of_year(struct date d)
                 if (d.year % 100 != 0 && d.year % 4 == 0 || d.year % 400 == 0) d.day += 1;
                 d.day += 28;
         case 2: d.day += 31;
-        default: d.day;
     }
     return d.day;
 }
