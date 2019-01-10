@@ -17,13 +17,12 @@ void insert(int *num_parts, struct part inventory[]);
 void search(int *num_parts, struct part inventory[]);
 void update(int *num_parts, struct part inventory[]);
 void print(int *num_parts, struct part inventory[]);
+void make_arrary(struct part **p);
 
 int main(void)
 {
+    int num_part;
     char code;
-    struct part inventory[MAX_PARTS];
-
-    int num_parts = 0; /* number of parts currently stored */
 
 
     for (;;) {
@@ -56,9 +55,13 @@ int find_part(int number, int *num_parts, struct part inventory[])
     return -1;
 }
 
-void insert(int *num_parts, struct part inventory[])
+void make_arrary(struct part *p)
 {
-    int part_number;
+    if (p[sizeof(*p)-1] != 0x0)  
+
+
+void insert(int num_parts, struct part inventory[])
+{
 
     if (*num_parts == MAX_PARTS) {
         printf("Database is full; can't add more parts.\n");
