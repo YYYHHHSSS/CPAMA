@@ -1,6 +1,7 @@
 /* Maintains a parts database (array version) */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "readline.h"
 
 #define NAME_LEN 25
@@ -10,7 +11,9 @@ struct part {
     int number;
     char name[NAME_LEN+1];
     int on_hand;
-};
+} *inventory;
+
+int size = 10;
 
 int find_part(int number, int *num_parts, struct part inventory[]);
 void insert(int *num_parts, struct part inventory[]);
@@ -24,6 +27,11 @@ int main(void)
     int num_part;
     char code;
 
+    inventory = malloc(sizeof(struct part) * 10);
+    if (inventory == NULL) {
+        printf("Error, malloc failed\n");
+        exit(EXIT_FAILURE);
+    }
 
     for (;;) {
         printf("Enter operation code: ");
@@ -55,27 +63,28 @@ int find_part(int number, int *num_parts, struct part inventory[])
     return -1;
 }
 
-void make_arrary(struct part *p)
+
+void insert(int *num_parts, struct part **inventory)
 {
-    if (p[sizeof(*p)-1] != 0x0)  
+    int part_number;
 
-
-void insert(int num_parts, struct part inventory[])
-{
-
-    if (*num_parts == MAX_PARTS) {
-        printf("Database is full; can't add more parts.\n");
-        return;
+    if (*num_parts == size) {
+        size *= 2;
+        *inventory = realloc(*inventory, sizeof(struct part) * size);
+        if (inventory == NULL) {
+        printf("Error, malloc failed\n");
+        exit(EXIT_FAILURE);
+        }
     }
 
     printf("Enter part number: ");
     scanf("%d", &part_number);
 
-    inventory[*num_parts].number = part_number;
+    (*inventory)[*num_parts].number = part_number;
     printf("Enter part name: ");
-    read_line(inventory[*num_parts].name, NAME_LEN);
+    read_line((*inventory)[*num_parts].name, NAME_LEN);
     printf("Enter quantity on hand: ");
-    scanf("%d", &inventory[*num_parts].on_hand);
+    scanf("%d", &(*inventory)[*num_parts].on_hand);
     (*num_parts)++;
 }
 
@@ -108,10 +117,24 @@ void update(int *num_parts, struct part inventory[])
         printf("Part not found.\n");
 }
 
+int compare_parts(const void *p, const void *q)
+{
+    const struct part *p1 = p;
+    const struct part *q1 = q;
+
+    if (p1->number < q1->number)
+        return -1;
+    else if (p1->number == q1->number)
+        return 0;
+    else 
+        return 1;
+}
+
 void print(int *num_parts, struct part inventory[])
 {
     int i;
 
+    qsort(inventory, *num_parts, sizeof(struct part), compare_parts);
     printf("Part Number   Part Name                    "
             "Quantity on Hand\n");
     for (i = 0; i < *num_parts; i++)
