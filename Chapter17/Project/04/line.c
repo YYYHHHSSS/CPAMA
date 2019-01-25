@@ -28,11 +28,13 @@ void clear_line(void)                    /* 清除行 */
         line = line->next;
         free(temp);
     }
+    line_len = 0;
+    num_words = 0;
 }
 
 void add_word(const char *word)
 {
-    struct node *first; 
+    struct node *first, **last = &line; 
 
     first = malloc(sizeof(struct node) + strlen(word) + 1);
     if (first == NULL) {
@@ -40,10 +42,12 @@ void add_word(const char *word)
         exit(EXIT_FAILURE);
     }
     strcpy(first->word, word);
-    strcat(first->word, " ");
-    first->next = line;
-    line = first;
-    line_len += strlen(word) + 1;        /* 每添加一个单词，行的长度增加一个单词和一个空格的长度 */
+    first->next = NULL;
+    while (*last != NULL)
+        last = &(*last)->next;
+    *last = first;
+    line_len += strlen(word);        
+    if (num_words > 0) line_len++;              /* 每添加一个单词，行的长度增加一个单词和一个空格的长度 */
     num_words++;
 }
 
@@ -55,16 +59,21 @@ int space_remaining(void)
 void write_line(void)
 {
     int extra_spaces, spaces_to_insert, i, j;
+    int char_count = 0;
+    struct node *point = line;
 
-    extra_spaces = MAX_LINE_LEN - line_len;
-    while (line != NULL) {
-        puts(line->word);
-        spaces_to_insert = extra_spaces / (num_words - 1);
-        for (j = 1; j <= spaces_to_insert + 1; j++)
-            putchar(' ');
-        extra_spaces -= spaces_to_insert;
+    extra_spaces = space_remaining();
+    while (char_count < line_len && point != NULL) {
+        printf("%s", point->word);
+        if (num_words > 1) {
+            spaces_to_insert = extra_spaces / (num_words - 1);
+            for (j = 1; j <= spaces_to_insert + 1; j++)
+                putchar(' ');
+            extra_spaces -= spaces_to_insert;
+        }
+        char_count += strlen(point->word) + 1; 
         num_words--;
-        line = line->next;
+        point = point->next;
     }
     putchar('\n');
 }
@@ -72,8 +81,13 @@ void write_line(void)
 void flush_line(void)
 {
     struct node *point = line; 
-    while (point) {
-        puts(point->word);
-        point = point->next;
+    int i;
+    if (line_len > 0) {
+        for (i = 0, point = line; point; i++, point = point->next) {
+            if (i > 0 && point->next != NULL)
+                putchar(' ');
+            printf("%s ", point->word);
+        }
     }
+    printf("\n");
 }
