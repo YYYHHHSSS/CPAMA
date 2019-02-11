@@ -28,6 +28,8 @@ void clear_line(void)                    /* 清除行 */
         line = line->next;
         free(temp);
     }
+    line_len = 0;
+    num_words = 0;
 }
 
 void add_word(const char *word)
